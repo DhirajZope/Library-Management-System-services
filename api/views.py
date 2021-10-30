@@ -12,7 +12,7 @@ from rest_framework.permissions import IsAuthenticated
 # Create your views here.
 
 
-class LibraryApiView(ListAPIView, RetrieveAPIView, CreateAPIView, UpdateAPIView, DestroyAPIView):
+class LibraryApiView(CreateAPIView, UpdateAPIView, DestroyAPIView):
     serializer_class = LibrarySerializer
     queryset = LibrarySet.objects.all()
     authentication_classes = [TokenAuthentication]
@@ -20,13 +20,6 @@ class LibraryApiView(ListAPIView, RetrieveAPIView, CreateAPIView, UpdateAPIView,
     
     lookup_field = 'id'
 
-    def get(self, request, id=None):
-        if id:
-            return self.retrieve(request)
-    
-        return self.list(request)
-
-    
     def post(self, request, id=None):
         return self.create(request)
 
@@ -37,6 +30,19 @@ class LibraryApiView(ListAPIView, RetrieveAPIView, CreateAPIView, UpdateAPIView,
     
     def delete(self, request, id):
         return self.destroy(request, id)
+
+
+class ListAllBooks(ListAPIView, RetrieveAPIView):
+    serializer_class = LibrarySerializer
+    queryset = LibrarySet.objects.all()
+    
+    def get(self, request, id=None):
+        if id:
+            return self.retrieve(request)
+    
+        return self.list(request)
+
+    
 
 
 

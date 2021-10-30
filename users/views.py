@@ -59,9 +59,11 @@ class UserAuthentication(APIView):
                 login(request, user)
                 
                 data = {
-                    'first_name': user.first_name,
-                    'last_name': user.last_name,
-                    'email': user.email,
+                    'user': {
+                        'first_name': user.first_name,
+                        'last_name': user.last_name,
+                        'email': user.email,
+                    },
                     'token': f"Token {Token.objects.get_or_create(user=user)[0].key}"
                 }
 
@@ -73,6 +75,7 @@ class UserAuthentication(APIView):
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
+@authentication_classes([TokenAuthentication])
 def user_logout(request):
   request.user.auth_token.delete()
   logout(request)
