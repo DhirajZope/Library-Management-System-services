@@ -7,8 +7,8 @@ from django.http import response
 # from .models import CustomUser
 from django.contrib.auth import authenticate, login, logout
 from rest_framework.permissions import IsAuthenticated
-# from django.views.decorators.csrf import csrf_exempt
-from rest_framework.views import csrf_exempt
+from django.views.decorators.csrf import csrf_exempt
+# from rest_framework.views import csrf_exempt
 from rest_framework.views import APIView
 from .serializers import UserSerializer
 from rest_framework.authentication import SessionAuthentication, TokenAuthentication
@@ -80,6 +80,7 @@ def user_logout(request):
   request.user.auth_token.delete()
   logout(request)
   return Response("Logged out", status=status.HTTP_200_OK)
+
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
